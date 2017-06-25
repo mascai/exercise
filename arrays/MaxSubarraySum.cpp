@@ -13,6 +13,21 @@ the contiguous subarray [4,-1,2,1] has the largest sum = 6.
 For this problem, return the maximum sum.
 */
 
+
+int Solution::maxSubArray(const vector<int> &a) {
+   int n = a.size();
+   int ans = a[0],
+	sum = 0,
+	min_sum = 0;
+    for (int r=0; r<n; ++r) {
+    	sum += a[r];
+    	ans = max (ans, sum - min_sum);
+    	min_sum = min (min_sum, sum);
+    }
+    return ans;
+}
+
+
 int Solution::maxSubArray(const vector<int> &A) { // O(N^2)
    int max = INT_MIN, n = A.size();
    for (int i = 0; i < n; i++){ // start index
