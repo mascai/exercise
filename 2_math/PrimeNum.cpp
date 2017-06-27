@@ -1,3 +1,6 @@
+/*
+Выводит все простые числа до N
+*/
 vector<int> Solution::sieve(int n) {
         vector<int> ans;
         if (n < 2) {
