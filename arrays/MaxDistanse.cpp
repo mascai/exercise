@@ -13,7 +13,7 @@ for the pair (3, 4)
 
 
 
-class Solution {
+class Solution { // n * log(n)
     public:
         int maximumGap(const vector<int> &num) {
             if (num.size() == 0) return -1;
