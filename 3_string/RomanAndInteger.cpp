@@ -27,3 +27,17 @@ int Solution::romanToInt(string A) {
     }
     return num;
 }
+
+
+string Solution::intToRoman(int A) {
+    // 1000 2000 3000
+    vector<string>M = {"", "M", "MM", "MMM"};
+    // 100 200 300 ... 900
+    vector<string>C = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
+    // 10 20 30
+    vector<string>X = {"", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"};
+    // 1 2 ... 9
+    vector<string>I = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+    
+    return M[A / 1000] + C[(A % 1000) / 100] + X[(A % 100) / 10] + I[(A % 10)];
+}
