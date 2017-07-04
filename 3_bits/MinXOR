@@ -1,0 +1,12 @@
+/*
+Given an array of N integers, find the pair of integers in the array which have minimum XOR value. Report the minimum XOR value.
+*/
+
+int Solution::findMinXor(vector<int> &a) { // O(N*log(N))
+    int ans = INT_MAX;
+    sort(begin(a), end(a));
+    for (int i = 0; i < a.size() - 1; i++){
+        ans = min(ans, a[i] ^ a[i + 1]);
+    }
+    return ans;
+}
