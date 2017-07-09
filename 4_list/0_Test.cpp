@@ -108,6 +108,49 @@ ListNode* DeletePos(ListNode *head, int pos){
     return head;
 }
 
+ListNode* merge(ListNode* A, ListNode* B){
+    if(A == NULL){
+        return B;
+    }
+    if(B == NULL){
+        return A;
+    }
+
+    ListNode* head = NULL;
+
+    if(A->val < B->val){
+        head = A;
+        A = A->next;
+    }
+    else{
+        head = B;
+        B = B->next;
+    }
+
+    ListNode* temp = head;
+
+    while(A != NULL && B != NULL){
+        if(A->val < B->val){
+            temp->next = A;
+            A = A->next;
+        }
+        else{
+            temp->next = B;
+            B = B->next;
+        }
+        temp = temp->next;
+    }
+
+    if(A != NULL){
+        temp->next = A;
+    }
+    else{
+        temp->next = B;
+    }
+
+    return head;
+}
+
 int main() {
     vector<int>v = {1, 2, 3, 4, 5};
     ListNode *head = VecToList(v);
