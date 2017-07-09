@@ -1,4 +1,8 @@
 #include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+#include <iostream>
 #include <stdio.h>
 #include <bits/stdc++.h>
 #define For(x,n) for(int x = 0; x < n; ++x)
@@ -11,6 +15,16 @@ struct ListNode {
     ListNode(int x) : val(x), next(NULL) {}
 };
 
+//Длина списка
+int Len(ListNode *head){
+    int cnt = 0;
+    while (head){
+        head = head->next;
+        ++cnt;
+    }
+    return cnt;
+}
+
 void Print(ListNode *l){
     while(l != NULL){
         cout << l->val << "  ";
@@ -20,6 +34,9 @@ void Print(ListNode *l){
 }
 
 ListNode* VecToList(vector<int>v){
+    if (v.size() == 0){
+        return nullptr;
+    }
     ListNode *head = new ListNode(v[0]);
     ListNode *p = head;
     for (size_t i = 1; i < v.size(); i++){
@@ -42,10 +59,59 @@ ListNode* ReverseList(ListNode *head){
     return head;
 }
 
+ListNode* InsertPos(ListNode *head, int x, int pos){
+    ListNode *tmp = new ListNode(x);
+    if (pos == 0){
+        if (head != NULL){
+            tmp->next = head;
+        }
+        head = tmp;
+        return head;
+    }
+    ListNode *prev = NULL, *p = head;
+    int i = 0;
+    while (p->next != NULL && i < pos - 1){
+        p = p->next;
+        i++;
+    }
+    if (p->next){ // not last element
+        tmp->next = p->next;
+    } else {
+        tmp->next = NULL;
+    }
+    p->next = tmp;
+    return head;
+}
+
+ListNode* DeletePos(ListNode *head, int pos){
+    if (pos < 0 || pos > Len(head) - 1){
+        cout << "Position out of bounds." << endl;
+        return NULL;
+    }
+    int i = 0;
+    ListNode *prev = head , *curr = head;
+    if (pos == 0){
+        prev = head;
+        head = head->next;
+        return head;
+    }
+    while (i < pos - 1 && prev->next){
+        prev = prev->next;
+        i++;
+    }
+    curr = prev->next;
+    if (curr->next != NULL){
+        prev->next = curr->next;
+    } else {
+        prev->next = NULL;
+    }
+    return head;
+}
 
 int main() {
-    vector<int>v = {1, 2, 4, 8, 16};
+    vector<int>v = {1, 2, 3, 4, 5};
     ListNode *head = VecToList(v);
     Print(head);
-    //Print(ReverseList(head));
+    //Print(InsertPos(head, 10, 5));
+    Print(DeletePos(head, 5));
 }
