@@ -76,7 +76,7 @@ int getWidth(Node *root, int k){
 
 int Width(Node* root){
     int maxWidth = 0;
-    int curWidth = 0, i = 0;
+    int curWidth = 0;
     int h = Height(root);
     for (int i = 1; i < h; i++){
         curWidth = getWidth(root, i);
