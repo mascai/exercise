@@ -36,6 +36,28 @@ Return 0 / 1 ( 0 for false, 1 for true ) for this problem
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+
+/////////////////// O(N) solution
+bool CheckBST(TreeNode *root){
+    return CheckBST(root, INT_MIN, INT_MAX);
+}
+
+bool CheckBST(TreeNode *root, int l, int r){
+    if (root == NULL){
+        return true;
+    }
+    if (root->data <= l || root->data > r){
+        return false;
+    }
+    if (!CheckBST(root->left, l, root->data)
+     || !CheckBST(root->right, root->data, r)){
+        return false;
+    }
+    return true;
+}
+
+/////////////////////////// O(N *log(N)) solution
+
 bool IsSubtreeLess(TreeNode* root, int val){
     if (root == NULL){
         return true;
