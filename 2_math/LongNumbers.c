@@ -6,7 +6,7 @@
 void add(int *num1, int *num2, int len1, int len2)
 {
     int *rezult, over = 0, i;
-    rezult = malloc((len1 + 1) * sizeof(int));
+    rezult = (int*)malloc((len1 + 1) * sizeof(int));
     for(i = 0; i < len1; i++)
     {
         if (i >= len1) rezult[i] = num2[i] + over;
@@ -28,7 +28,7 @@ void add(int *num1, int *num2, int len1, int len2)
 void subtract(int *num1, int *num2, int len1, int len2, int flag)
 {
     int *rezult, under = 0, i, t = 0;
-    rezult = malloc(len1 * sizeof(int));
+    rezult = (int*)malloc(len1 * sizeof(int));
     for(i = 0; i < len1; i++)
     {
         if (i >= len2) rezult[i] = num1[i] - under;
@@ -52,7 +52,7 @@ void subtract(int *num1, int *num2, int len1, int len2, int flag)
 void multiply(int *num1, int *num2, int len1, int len2)
 {
     int *rezult, over = 0, i, t = 0, k;
-    rezult = malloc((len1 + len2) * sizeof(int));
+    rezult = (int*)malloc((len1 + len2) * sizeof(int));
     for (k = 0; k < len1 + len2; k++) rezult[k] = 0;
     for (i = 0; i < len2; i++)
     {
@@ -93,8 +93,8 @@ int main(void)
         flag = 1;
     }
 
-    num1 = malloc(len1 * sizeof(int));
-    num2 = malloc(len2 * sizeof(int));
+    num1 = (int*)malloc(len1 * sizeof(int));
+    num2 = (int*)malloc(len2 * sizeof(int));
     for(i = len1 - 1; i >= 0; i--)
     {
         index1++;
