@@ -2,23 +2,46 @@
 
 using namespace std;
 
-// return id of K
-int bin_search(const vector<int>& v, int k) {
-    int low = 0, high = v.size() - 1;
+int bin_search_left(vector<int>a, int  x) {
+    int low = 0, high = a.size() - 1;
+    int ans = -1;
     while (low <= high) {
-        int mid = (low+ high) / 2;
-        if (v[mid] == k) {
-            return mid;
-        } else if (v[mid] > k){
+        int mid = (low + high) / 2;
+        if (a[mid] == x) {
+            // return mid; // simple bin_search
+            ans = mid;
             high = mid - 1;
-        } else {
+        } else if ( a[mid] < x) {
             low = mid + 1;
+        } else {
+            high = mid - 1;
         }
     }
-    return - 1;
+    return ans;
 }
 
-int main(){
-    vector<int>v = {2, 4, 5, 7, 10};
-    cout << bin_search(v, 7);
+int bin_search_right(vector<int>a, int x) {
+    int low = 0, high = a.size() - 1;
+    int ans = -1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (a[mid] == x) {
+            // return mid; // simple bin_search
+            ans = mid;
+            low = mid + 1;
+        } else if (a[mid] < x) {
+            low = mid + 1;
+        }else {
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+int main() {
+    vector<int>v_find_left = {1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 4, 8, 12, 13, 13, 13,  17, 111};
+    cout << bin_search_left(v_find_left, 1) << endl;
+    vector<int>v_find_riight = {1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 4, 8, 12, 13, 13, 13,  17, 111};
+    cout << bin_search_right(v_find_riight, 1);
+    return 0;
 }
