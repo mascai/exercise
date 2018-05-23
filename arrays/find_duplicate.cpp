@@ -17,37 +17,29 @@ If there is no duplicate, output -1
 */
 
 
-#include <math.h>
+
+// Floyd algorithm
+// document http://mech.math.msu.su/~fpm/ps/k10/k106/k10609.pdf
 
 int Solution::repeatedNumber(const vector<int> &A) {
-    int sz = A.size() - 1;
-    int id = 0;
-    int sq= floor(sqrt(sz));
-    int part_size = A.size() / sz;
-    map<int, int>cnt; // elem and counter of elem
-    for (int i = 0; i < A.size(); i += sq) {
-        int curr_size = 0;
-        for (int j = i; j < A.size() && j <= i + sq; j++) {
-            ++curr_size;
-        }
-        if (curr_size > part_size) {
-            for (int j = i; j < A.size() && j <= i + sq; j++) {
-                cnt[A[j]]++;
-            }
-        }
+    int arraySize = A.size();
+    if (arraySize <= 1) {
+        return -1;
     }
-    for (auto item : cnt) {
-        int cnt_num = 0;
-        for (int i = 0; i < A.size(); ++i) {
-            if (A[i] == item.first) {
-                ++cnt_num;
-            }
-        }
-        if (cnt_num > 1) {
-            return item.first;
-        }
+    int slow = A[0];
+    int fast = A[A[0]];
+    
+    while (slow != fast) {
+        slow = A[slow];
+        fast = A[A[fast]];
     }
-    return -1;
+    
+    fast = 0;
+    while (fast != slow) {
+        slow = A[slow];
+        fast = A[fast];
+    }
+    
+    return fast;
 }
-
 
