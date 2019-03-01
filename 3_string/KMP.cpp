@@ -1,28 +1,35 @@
-#define forn(i,n) for(int i=0;i<n;i++)
+#include <iostream>
+#include <vector>
+#include <fstream>
 
-string s2 ="find",s1 = "find in me find";
+using namespace std;
 
-vector<int> prefix_function (string s) {
-    int n = (int) s.length();
-    vector<int> pi (n);
-    for (int i=1; i<n; ++i) {
-        int j = pi[i-1];
-        while (j > 0 && s[i] != s[j] || j==s2.size() || i==s2.size())
-            j = pi[j-1];
-        if (s[i] == s[j] && i!=s2.size() && j!=s2.size())
-            ++j;
-        pi[i] = j;
-    }
-    return pi;
+vector<int> compute_prefix_function(const string& s)
+{
+	int len = s.length();
+	vector<int> p(len); // значения префикс-функции
+	                    // индекс вектора соответствует номеру последнего символа аргумента
+	p[0] = 0; // для префикса из нуля и одного символа функция равна нулю
+
+    int k = 0;
+	for (int i = 1; i < len; ++i) {
+		while ((k > 0) && (s[k] != s[i]))
+			k = p[k - 1];
+		if (s[k] == s[i])
+			++k;
+		p[i] = k;
+	}
+	return p;
 }
 
-int main(){
-    s1=s2+'#'+s1;
-    vector<int> p= prefix_function(s1);
-    forn(i,p.size()){
-        if(p[i]==s2.size()){
-            cout << i - 2 * s2.size() + 1 << " ";
+int main() {
+    string s1="alekmos";
+    string s2="ekm";
+    string s = s2+'#'+s1;
+    auto ans = compute_prefix_function(s);
+    for (int i = 0; i < ans.size(); ++i) {
+        if (ans[i] == s2.size()) {
+            cout << i - 2*s2.size() + 1;
         }
     }
-    return 0;
 }
