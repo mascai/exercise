@@ -15,46 +15,32 @@ Note:
     Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. If the numerical value is out of the range of representable values, INT_MAX (231 − 1) or INT_MIN (−231) is returned.
 
 */
-
-class Solution {
-public:
-    bool isSign(const char& ch) {
-        return (ch == '-' || ch == '+');
+int atoi(string str)
+{
+    int sz = str.size();
+    if (str.size()  < 1) {
+        return 0;
     }
-    int myAtoi(string str) {
-        int size = str.size();
-        int start = 0;
-        while (start < size && str[start] == ' ') {
-            start++;
-        };
-        if (start == size && !isdigit(str[start - 1])
-            || !isdigit(str[start]) && !isSign(str[start])) {
-            return 0;
-        }
-        char sign;
-        if (isSign(str[start])) {
-            sign = str[start];
-            ++start;
-        }
-        long long ans = 0;
-        for (int i = start; i < size && isdigit(str[i]); ++i) {
-            int curr = (str[i] - '0');
-            if (ans > INT_MAX/10 || 
-              (ans == INT_MAX / 10 && curr > 7)) {
-               if (sign == '-') {
-                   return INT_MIN;
-               } else {
-                   return INT_MAX;
-               }
-           }
-            ans = ans * 10 + curr;  
-        }
-        if (sign == '-') {
-            ans *= -1;
-        }
-        return ans;
+    int sign = 1; // -1 == '-', 1 == '+'
+    if (str[0] == '-') {
+        sign = -1;
     }
-            
-    
-    
-};
+    int start = 0;
+    while (start < sz && str[start] == '0') {
+        start++;
+    }
+    if (start == sz) {
+        return 0;
+    }
+    int ans = 0;
+    if (str[0] == '-' || str[0] == '+') {
+        start++;
+    }
+    for (int i = start; i< sz; i++) {
+        if (!isdigit(str[i])) {
+            return -1;
+        }
+        ans = ans * 10 + str[i] - '0';
+    }
+    return ans * sign;
+}
