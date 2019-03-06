@@ -21,7 +21,78 @@ Given the array as:
 ]
 
 The answer would be “a”.
+
 */
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> pi(string s) {
+    int n = s.size();
+    vector<int>p(n);
+    int j = 0;
+    p[0] = 0;
+    for (int i = 1; i < n; ++i) {
+        while (j > 0 && p[i] == p[j]) {
+            j = p[j - 1];
+        }
+        if (p[i] == p[j]) {
+            ++j;
+        }
+        p[i] = j;
+    }
+    return p;
+}
+
+string pref(vector<string> vec) {
+    size_t minLen = vec[0].size();
+    for (int i = 1; i < vec.size(); ++i) {
+        minLen = min(minLen, vec[i].size());
+    }
+    
+    string ans="";
+    for (int i = 0; i < minLen; ++i) {
+        char cur = vec[0][i];
+        for (int j = 1; j < vec.size(); ++j) {
+            if (vec[j][i] != cur) {
+                if (ans.size())
+                    return ans;
+                return "-1";
+            }
+        }
+        ans.push_back(cur);
+    }
+    if (ans.size())
+        return ans;
+    return "-1";
+}
+
+int main() {
+	int T;
+	cin >> T;
+	while (T-- > 0) {
+	    int n;
+	    cin >> n;
+	    string s, ans;
+	    vector<string>vec(n);
+	    for (int i = 0; i < n; ++i) {
+	        cin >> vec[i];
+	        
+	    }
+	    cout << pref(vec) << endl;
+	    
+	}
+	return 0;
+}
+
+////////////////
+////////////////
+////////////////
+////////////////
+
+// O(M*N)
 
 string Solution::longestCommonPrefix(vector<string> &A) {
     string ans = A[0], s = A[0];
