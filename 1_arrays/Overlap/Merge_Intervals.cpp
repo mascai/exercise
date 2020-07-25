@@ -18,7 +18,47 @@ Make sure the returned intervals are also sorted.
 */
 
 
+// Solution 1
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+ 
+bool is_overlap(const Interval& lhs, const Interval& rhs) {
+    return not (max(lhs.start, rhs.start) > min(lhs.end, rhs.end));    
+}
 
+bool compare(const Interval& lhs, const Interval& rhs) {
+    return(lhs.start < rhs.start);
+}
+
+
+vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInterval) {
+    intervals.push_back(newInterval);
+    sort(intervals.begin(),intervals.end(),compare);
+    vector<Interval> res;
+    
+    int i;
+    for (i = 0; i < intervals.size() - 1; ++i) {
+        if (is_overlap(intervals[i + 1], intervals[i])) {
+            intervals[i + 1].start = intervals[i].start;
+            intervals[i + 1].end = max(intervals[i].end, intervals[i + 1].end);
+        } else {
+            res.push_back(intervals[i]);
+        }
+    }
+    res.push_back(intervals[i]);
+    return res;
+    
+}
+
+
+// Solution 2
 class Solution {
     public:
 
