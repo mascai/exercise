@@ -65,13 +65,11 @@ void dfs(int node, const vector<vector<int>>& graph, vector<int>& used, int colo
 int main() {
     int n, m;
     cin >> n >> m;
-    vector<vector<int>> graph(n, vector<int>());
+    vector<vector<int>> graph(n);
     string s;
     for (int i = 0; i < m; ++i) {
-        cin >> s;
-        int a = stoi(s);
-        cin >> s;
-        int b = stoi(s);
+        int a, b;
+        cin >> a >> b;
         graph[a-1].push_back(b);
         graph[b-1].push_back(a);
     }
