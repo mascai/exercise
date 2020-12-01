@@ -66,12 +66,9 @@ int main() {
     vector<vector<int>> graph(n, vector<int>());
     vector<int> color(n, 0); // 0 - white, 1 - gray, 2 - black
 
-    string s;
     for (int i = 0; i < m; ++i) {
-        cin >> s;
-        int a = stoi(s);
-        cin >> s;
-        int b = stoi(s);
+        int a, b;
+        cin >> a >> b;
         graph[a - 1].push_back(b);
         graph[b - 1].push_back(a);
     }
