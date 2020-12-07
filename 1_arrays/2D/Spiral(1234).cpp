@@ -10,6 +10,50 @@ You should return the following matrix:
 
 */
 
+
+
+// Solution 1
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> res(n, vector<int>(n));
+        int l = 0, r = n - 1, high = 0, low = n - 1;
+        int mode = 0;
+        int i = 1;
+        while (i <= n * n) {
+            if (mode == 0) {
+                for (int j = l; j <= r; ++j) {
+                    res[high][j] =  i++;
+                }
+                high++;
+            }
+            if (mode == 1) {
+                for (int j = high; j <= low; ++j) {
+                    res[j][r] = i++;
+                }
+                r--;
+            }
+            if (mode == 2) {
+                for (int j = r; j >= l; --j) {
+                    res[low][j] =  i++;
+                }
+                low--;
+            }
+            if (mode == 3) {
+                for (int j = low; j >= high; --j) {
+                    res[j][l] = i++;
+                }
+                l++;
+            }
+            mode = (mode + 1) % 4;
+        }
+        return res;
+    }
+};
+
+
+
+// Solution 2
 class Solution {
 public:
     vector<vector<int> > generateMatrix(int n) {
