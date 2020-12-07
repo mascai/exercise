@@ -16,28 +16,6 @@ Output:
 
 using namespace std;
 
-//find @element in @arr
-bool SimpleFind(const double *arr, int sz, double element){
-    for (int i = 0; i < sz; i++){
-        if (arr[i] == element){
-            return true;
-        }
-    }
-    return false;
-}
-
-int BinFind(double *arr, int cnt, double elem){
-    int first = 0, last = cnt;
-    while (first < last){
-        int mid = (first + last) / 2;
-        if (elem <= arr[mid]){
-            last = mid;
-        } else {
-            first = mid + 1;
-        }
-    }
-    return (first == cnt || arr[first] != elem) ? -1: first;
-}
 
 int main()
 {
