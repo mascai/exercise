@@ -65,6 +65,23 @@ int main() {
 }
 
 
+// Solution 2
+
+int main()
+{
+    int n, i;
+    cin >> n;
+    vector<int> v(n + 3);
+    v[2] = v[3] = 1;
+    for (i = 4; i <= n; ++i)
+    {
+        v[i] = v[i - 1] + 1;
+        if (i % 2 == 0) v[i] = min(v[i], v[i / 2] + 1);
+        if (i % 3 == 0) v[i] = min(v[i],v[i / 3] + 1);
+    }
+    cout << v[n];
+}
+
 
 
 
