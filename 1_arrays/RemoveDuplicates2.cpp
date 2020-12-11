@@ -41,6 +41,23 @@ nums is sorted in ascending order.
 
 */
 
+// Solution 1
+class Solution {
+public:
+    int removeDuplicates(vector<int>& v) {
+       if(v.size()<2)
+           return v.size();
+        int j=2;
+        for(int i=2;i<v.size();i++) {
+            if(v[j-2]!=v[i]){
+                v[j++]=v[i];
+            }
+        }
+        return j;
+    }
+};
+
+// Soluion 2
 class Solution {
 public:
     int removeDuplicates(vector<int>& nums) {
