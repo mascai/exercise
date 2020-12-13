@@ -1,28 +1,32 @@
 /*
-Reverse a linked list using recursion.
+Reverse a singly linked list.
 
-Example :
-Given 1->2->3->4->5->NULL,
+Example:
 
-return 5->4->3->2->1->NULL.
-*/
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+ */
+
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
  *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-struct ListNode *head;
-ListNode* Solution::reverseList(ListNode* p) {
-    if (p->next == NULL || p == NULL) {
-        return p;
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL or head->next == NULL) {
+            return head;
+        }
+        ListNode* res = reverseList(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return res;
     }
-    ListNode *nextNode = p->next;
-    ListNode *head = reverseList(p->next);
-    nextNode->next = p;
-    p->next = NULL;
-
-    return head;
-}
+};
