@@ -23,6 +23,35 @@ nums is sorted in non-decreasing order.
 
 */
 
+// Solution 1
+// O(n) - time
+// O(n) - space
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        vector<int> res, negative, positive;
+        partition_copy(
+            cbegin(nums), cend(nums), 
+            back_inserter(negative), back_inserter(positive), 
+            [](int n) {return n < 0;}
+        );
+        for (auto& i : negative) {
+            i *= i;
+        }
+        for (auto& i : positive) {
+            i *= i;
+        }
+        merge(
+            crbegin(negative), crend(negative),
+            cbegin(positive), cend(positive),
+            back_inserter(res)
+        );
+        return res;
+    }
+};
+
+// Solution 2 
+// O(n * log(n))
 class Solution {
 public:
     vector<int> sortedSquares(vector<int>& nums) {
