@@ -29,7 +29,7 @@ The two tuples are:
 class Solution {
 public:
     int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
-        unordered_map<long long, int> cnt; // <B[i]+B[j], occurrence>
+        unordered_map<long long, int> cnt; // <C[i]+D[j], occurrence>
         int n = A.size();
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
