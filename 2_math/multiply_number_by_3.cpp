@@ -23,19 +23,16 @@ Sample Output:
 
 using namespace std;
 
-#define ll long long
 
 int main() {
     unsigned long long n, mmax = numeric_limits<unsigned long long>::max();
     cin >> n;
-
-
     if (n % 3 == 0) {
         cout << n / 3;
     } else if (n % 3 == 1) {
-        cout << (mmax / 3 * 2 + n / 3 + 1);
+        cout << mmax / 3 * 2 + n / 3 + 1;
     } else {
-        cout << mmax/3 + n/3 + 1;
+        cout << mmax / 3 + n / 3 + 1;
     }
     return 0;
 } 
