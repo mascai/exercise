@@ -25,6 +25,7 @@ using namespace std;
 
 
 long long minSimpleDividersSum(long long n) {
+    // calculate sieve
     vector<int> v(n + 1, 0);
     for (long long i = 2; i * i <= n; ++i) {
         if (v[i] == 0) {
@@ -35,6 +36,7 @@ long long minSimpleDividersSum(long long n) {
             }
         }
     }
+    // calculate sum of min prime dividers
     long long res = 0;
     for (auto i : v) {
         res += i;
