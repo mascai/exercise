@@ -1,5 +1,5 @@
 /*
-
+https://leetcode.com/explore/challenge/card/december-leetcoding-challenge/572/week-4-december-22nd-december-28th/3583/
 
 */
 
@@ -24,3 +24,19 @@ public:
     }
 };
 
+
+// Solution 2 O(n)
+
+class Solution {
+public:
+    int reachNumber(int target) {
+        target = abs(target);
+        int res = 0;
+        int curSum = 0;
+        while (curSum < target or (target - curSum) % 2) {
+            res++;
+            curSum += res;
+        }
+        return res;
+    }
+};
