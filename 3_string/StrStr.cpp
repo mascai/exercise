@@ -1,14 +1,64 @@
-int Solution::strStr(const string &s1, const string &s2) { // find s2 in s1
-    int n = s1.size(), m = s2.size();
-    if (m == 0 || n == 0 && m == 0){
+// Brute force
+
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) {
+            return 0;
+        }
+        int n = haystack.size();
+        for (int i = 0; i < n; ++i) {
+            if (needle[0] == haystack[i]) {
+                int curI = i;
+                int len = 1;
+                while (len < needle.size() and curI + len < n and
+                       needle[len] == haystack[curI + len]) {
+                    ++len;
+                }
+                if (len == needle.size()) {
+                    return i;
+                }
+            }
+        }
         return -1;
     }
-    for (int i = 0; i + m - 1 < n; i++){
+};
+
+
+// CMP solution 
+// O(n)
+
+class Solution {
+public:
+    
+    vector<int> prefix(string s) {
+        int n = s.size();
+        vector<int> pi(n, 0);
         int j = 0;
-        for (j = 0; s1[i + j] == s2[j] && j < m; j++);
-        if (j == s2.size()){
-            return i;
+        for (int i = 1; i < n; ++i) {
+            j = pi[i - 1];
+            while (j > 0 and s[i] != s[j]) {
+                j = pi[j - 1];
+            }
+            if (s[i] == s[j]) {
+                ++j;
+            }
+            pi[i] = j;
         }
+        return pi;
     }
-    return -1;
-}
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) {
+            return 0;
+        }
+        int n = haystack.size();
+        string s = needle + "#" + haystack;
+        auto pi = prefix(s);
+        for (int i = needle.size() + 1; i < pi.size(); ++i) {
+            if (pi[i] == needle.size()) {
+                return i - 2 * needle.size();
+            }
+        }
+        return -1;
+    }
+};
