@@ -17,6 +17,48 @@ Note:
 
 
 */
+
+// Solution 1
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res;
+        int n = nums.size();
+        if (n < 3) {
+            return res;
+        }
+        sort(begin(nums), end(nums));
+        for (int i = 0; i < n; ++i) {
+            if (i > 0 and nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int l = i + 1;
+            int r = n - 1;
+            while (l < r) {
+                long long sum = 0LL + nums[i] + nums[l] + nums[r];
+                if (sum > 0) {
+                    --r;
+                } else if (sum < 0) {
+                    ++l;
+                } else { // sum = 0
+                    res.push_back({nums[i], nums[l], nums[r]});
+                    while (l + 1 < n and nums[l] == nums[l + 1]) {
+                        ++l;
+                    }
+                    while (r - 1 >= 0 and nums[r] == nums[r - 1]) {
+                        --r;
+                        
+                    }
+                    ++l;
+                    --r;
+                }
+            }
+        }
+        return res;
+    }
+};
+
+// Solution 2
 vector<vector<int> > Solution::threeSum(vector<int> &a) {
     int n = a.size(), sum = 0;
     sort(begin(a), end(a));
