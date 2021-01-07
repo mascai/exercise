@@ -33,6 +33,26 @@ Constraints:
 s consists of English letters, digits, symbols and spaces.
 */
 
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int start = -1;
+        int res = 0;
+        int n = s.size();
+        unordered_map<char, int> cnt;
+        for (int i = 0; i < n; ++i) {
+            if (cnt.count(s[i]) and cnt[s[i]] > start) {
+                start = cnt[s[i]];
+            }
+            cnt[s[i]] = i;
+            res = max(res, i - start);
+        }
+        return res;
+    }
+};
+
+// Solution 2
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
