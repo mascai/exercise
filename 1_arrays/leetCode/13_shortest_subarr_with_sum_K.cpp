@@ -28,6 +28,36 @@ Note:
 */
 
 
+
+// Solution 1
+
+class Solution {
+   public:
+   int shortestSubarray(vector<int> &A, int K) {
+      int n = A.size();
+      int ans = n + 1;
+      int j = 0;
+      int sum = 0;
+      deque<int> dq;
+      for (int i = 0; i < n; i++) {
+         if (i > 0)
+         A[i] += A[i - 1];
+         if (A[i] >= K) {
+            ans = min(ans, i + 1);
+         }
+         while (!dq.empty() && A[i] - A[dq.front()] >= K) {
+            ans = min(ans, i - dq.front());
+            dq.pop_front();
+         }
+         while (!dq.empty() && A[i] <= A[dq.back()])
+         dq.pop_back();
+         dq.push_back(i);
+      }
+      return ans == n + 1 ? -1 : ans;
+   }
+};
+
+// Solution 2
 class Solution {
 public:
     int shortestSubarray(vector<int>& A, int K) {
