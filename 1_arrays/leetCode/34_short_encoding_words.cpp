@@ -32,6 +32,27 @@ words[i] consists of only lowercase letters.
 */
 
 
+// Soluton 1
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        unordered_set<string> s(begin(words), end(words));
+        for (auto word : words) {
+            for (int i = 1; i < word.size(); ++i) {
+                if (s.find(word.substr(i)) != s.end()) {
+                    s.erase(word.substr(i));
+                }
+            }
+        }
+        int res = 0;
+        for (auto word : s) {
+            res += word.size() + 1;
+        }
+        return res;
+    }
+};
+
+// Solution 2
 class Solution {
 public:
     struct Node {
