@@ -71,8 +71,7 @@ public:
     }
 };
 
-// Solution 2
-
+// Solution 2 O(N * log(K)) where K - number of ladders
 
 class Solution {
 public:
