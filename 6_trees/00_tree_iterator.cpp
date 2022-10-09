@@ -47,8 +47,7 @@ Could you implement next() and hasNext() to run in average O(1) time and use O(h
 
 */
 
-
-
+// Solution 1 (apply stack)
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -60,6 +59,39 @@ Could you implement next() and hasNext() to run in average O(1) time and use O(h
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+class BSTIterator {
+public:
+    BSTIterator(TreeNode* root) {
+        populate_stack(root);
+    }
+    
+    int next() {
+        const auto top_node = nodes.top();
+        nodes.pop();
+        
+        populate_stack(top_node->right);
+        return top_node->val;
+    }
+    
+    bool hasNext() {
+        return not nodes.empty();
+    }
+    
+    void populate_stack(TreeNode* node) {
+        while (node != nullptr) {
+            nodes.push(node);
+            node = node->left;
+        }
+    }
+private:
+    stack<TreeNode*> nodes;
+};
+
+
+
+
+// Solution 2 
+// O(1) memeory
 class BSTIterator {
 public:
     BSTIterator(TreeNode* root) {
