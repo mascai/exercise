@@ -45,8 +45,9 @@ struct Time {
         m = n % 60;
     }
 
-    int h;
-    int m;
+    operator int() const {
+        return h * 60 + m;
+    }
 
     friend ostream& operator<<(ostream& os, const Time& t) {
         if (t.h < 10) {
@@ -60,12 +61,12 @@ struct Time {
         os << t.m;
         return os;
     }
+public:
+    int h;
+    int m;
 };
 
 
-int time_to_int(const Time& t) {
-    return t.h * 60 + t.m;
-}
 
 
 pair<int, int> input_time() {
@@ -78,7 +79,7 @@ pair<int, int> input_time() {
     cin >> end.h;
     cin.ignore(1);
     cin >> end.m;
-    return {time_to_int(start), time_to_int(end)};
+    return {static_cast<int>(start), static_cast<int>(end)};
 }
 
 
