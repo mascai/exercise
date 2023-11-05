@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 
 using namespace std;
@@ -81,7 +82,7 @@ struct A {
 
 
 template<class T, class... Args>
-my_shared_ptr<T> my_make_shared(Args... args) {
+my_shared_ptr<T> my_make_shared(Args&&... args) {
     auto ptr = new T(std::forward<Args>(args)...);
     return my_shared_ptr(ptr);
 }
