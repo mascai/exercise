@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 
 using namespace std;
@@ -79,8 +78,16 @@ struct A {
     }
 };
 
+
+
+template<class T, class... Args>
+my_shared_ptr<T> my_make_shared(Args... args) {
+    auto ptr = new T(std::forward<Args>(args)...);
+    return my_shared_ptr(ptr);
+}
+
 int main() {
-    my_shared_ptr<A> p1 = new A();
+    auto p1 = my_make_shared<A>();
     cout << p1.use_count() << endl;
     my_shared_ptr<A> p2 = p1;
     cout << p2.use_count() << endl; // 2
