@@ -1,102 +1,90 @@
-#include <bits/stdc++.h>
-#include <gtest/gtest.h>
+#include <iostream>
+#include <vector>
+
 
 using namespace std;
 
 
 template<class T>
-class SmartPtr {
+class my_shared_ptr {
 public:
-    SmartPtr(T* data) {
-        data_ = data;
-        count_ = new size_t(1);
+    my_shared_ptr() {}
+
+    my_shared_ptr(T* ptr) {
+        m_ptr = ptr;
+        m_counter = new size_t(1);
     }
 
-    SmartPtr(SmartPtr<T>& temp) {
-        data_ = temp.data_;
-        count_ = temp.count_;
-        ++(*count_);
-    }
-
-    SmartPtr(SmartPtr<T>&& temp) {
-        data_ = temp.data_;
-        count_ = temp.count_;
-        temp.data_ = NULL;
-        temp.count_ = NULL;
-    }
-
-    SmartPtr<T> operator=(SmartPtr<T>& temp) {
-        if (this == &temp) {
-            return *this;
+    my_shared_ptr(const my_shared_ptr& other) 
+        : m_ptr(other.m_ptr)
+        , m_counter(other.m_counter) {
+            if (m_counter) {
+                ++(*m_counter);
+            }
         }
-        if (*count_ > 0) {
-            remove();
-        }
-        data_ = temp.data_;
-        count_ = temp.count_;
-        ++(*count_);
+
+    my_shared_ptr(my_shared_ptr&& other)
+        : m_ptr(std::exchange(other.m_ptr, nullptr))
+        , m_counter(std::exchange(other.m_counter, nullptr)) {
+    }
+
+    my_shared_ptr& operator=(const my_shared_ptr& other) {
+        my_shared_ptr tmp(other);
+        tmp.swap(*this);
         return *this;
     }
 
-    friend ostream& operator<<(ostream& os, SmartPtr<T>& temp) {
-        os << "Data " << *(temp.data_) << " Count " << *(temp.count_);
-        return os; 
+    my_shared_ptr& operator=(my_shared_ptr&& other) {
+        my_shared_ptr tmp(std::move(other));
+        other.swap(*this);
+        return *this;
     }
-    
-    T* getData() const {
-        return data_;
+
+    void swap(my_shared_ptr& other) noexcept {
+        std::swap(m_ptr,  other.m_ptr);
+        std::swap(m_counter, other.m_counter);
     }
-    
-    size_t getCount() const {
-        return *count_;
+
+    size_t use_count() const {
+        if (m_counter) {
+            return *m_counter;
+        }
+        return 0;
     }
-private:
-    void remove() {
-        --(*count_);
-        if (*count_ == 0) {
-            delete data_;
-            delete count_;
+
+
+
+    ~my_shared_ptr() {
+        if (m_counter and *m_counter > 1) {
+            --(*m_counter);
+        } else {
+            delete m_ptr;
+            delete m_counter;
         }
     }
+
 private:
-    T* data_;
-    size_t* count_;
+    T* m_ptr = nullptr;
+    size_t* m_counter = nullptr;
 };
 
 
-
-TEST(TestSmartPtr, Test1) {
-    {
-        string* s = new string("123");
-        SmartPtr<string> ptr(s);
-        SmartPtr<string> ptr2(ptr);
-        ASSERT_EQ("123", *ptr.getData());
-        ASSERT_EQ(2, ptr2.getCount());
-        
+struct A {
+    A() {
+        cout << "A()\n";
     }
 
-    {
-        string* s = new string("123");
-        SmartPtr<string> ptr(s);
-        SmartPtr<string> ptr2 = ptr;
-        ASSERT_EQ("123", *ptr.getData());
-        ASSERT_EQ(2, ptr2.getCount());
-        
+    ~A() {
+        cout << "~A()\n";
     }
+};
 
-    {
-        string* s = new string("123");
-        SmartPtr<string> ptr(s);
-        SmartPtr<string> ptr2(std::move(ptr));
-        ASSERT_EQ("123", *ptr2.getData());
-        ASSERT_EQ(1, ptr2.getCount());
-
-        ASSERT_EQ(NULL, ptr.getData());
-    }
+int main() {
+    my_shared_ptr<A> p1 = new A();
+    cout << p1.use_count() << endl;
+    my_shared_ptr<A> p2 = p1;
+    cout << p2.use_count() << endl; // 2
     
-}
-
-int main(int argc, char** argv) {  
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    my_shared_ptr<A> p3 = std::move(p1);
+    assert(p3.use_count() == 2);
 }
