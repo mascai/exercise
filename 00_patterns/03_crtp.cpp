@@ -1,4 +1,7 @@
 #include <iostream>
+#include <memory>
+#include <string>
+
 
 using std::cout;
 using std::endl;
