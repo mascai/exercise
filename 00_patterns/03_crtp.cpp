@@ -1,12 +1,14 @@
 #include <iostream>
-#include <memory>
-#include <string>
 
-using namespace std;
-
+using std::cout;
+using std::endl;
 
 template<class Type>
 class BaseOrder {
+protected:
+    BaseOrder() = default;
+    BaseOrder(const BaseOrder&) = default;
+    BaseOrder& operator=(const BaseOrder&) = default;
 public:
     void sendOrder() {static_cast<Type*>(this)->send();}
     void send() { cout << "Send Base" << endl;}
@@ -22,11 +24,15 @@ public:
     void send() { cout << "Send DerivedOrder2" << endl;}
 };
 
+template<class T>
+void handleOrder(BaseOrder<T>& order) {
+    order.sendOrder();
+}
 
 int main() {
-    BaseOrder<DerivedOrder1> obj1;
-    obj1.sendOrder();
+    DerivedOrder1 obj1;
+    handleOrder(obj1);
 
-    BaseOrder<DerivedOrder2> obj2;
-    obj2.sendOrder();
+    DerivedOrder2 obj2;
+    handleOrder(obj2);
 }
