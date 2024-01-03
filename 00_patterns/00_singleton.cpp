@@ -47,6 +47,9 @@ public:
         static shared_ptr<Singleton> res = shared_ptr<Singleton>(new Singleton({1, 2}));
         return res;
     }
+    Singleton(const Singleton& other) = delete;
+    Singleton& operator=(const Singleton& other) = delete;
+
     friend ostream& operator<<(ostream& os, const Singleton& other) {
         for (auto i : other.data) {
             os << i << ' ' ;
