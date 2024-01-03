@@ -1,3 +1,5 @@
+// Solution 1
+
 #include <iostream>
 #include <memory>
 #include <string>
@@ -26,4 +28,38 @@ int main() {
     auto s2 = Singleton::get_instance(100);
     cout << s1->id_ << endl; // 1
     cout << s2->id_ << endl; // 1
+}
+
+
+// Solution2
+
+#include <atomic>
+#include <iostream>
+#include <vector>
+#include <memory>
+
+using namespace std;
+
+
+class Singleton {
+public:
+    static shared_ptr<Singleton> init() {
+        static shared_ptr<Singleton> res = shared_ptr<Singleton>(new Singleton({1, 2}));
+        return res;
+    }
+    friend ostream& operator<<(ostream& os, const Singleton& other) {
+        for (auto i : other.data) {
+            os << i << ' ' ;
+        }
+        return os;
+    }
+private:
+    Singleton(const vector<int> v) : data(v) {}
+private:
+    vector<int> data;
+};
+
+int main() {
+    auto s = Singleton::init();
+    cout << *s << endl;
 }
