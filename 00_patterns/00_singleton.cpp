@@ -1,4 +1,42 @@
 // Solution 1
+#include <iostream>
+#include <vector>
+
+
+class Singleton {
+public:
+    static Singleton& init(std::vector<int> v) {
+        static Singleton res = Singleton(v);
+        return res;
+    }
+    Singleton(const Singleton& ) = delete;
+    Singleton& operator=(const Singleton&) = delete;
+
+    friend std::ostream& operator<<(std::ostream& os, Singleton& other) {
+        for (auto cur : other.data) {
+             os << cur << ' ';
+        }
+        return os;
+    }
+private:
+    Singleton(const std::vector<int> v) {
+        data = v;
+    }
+private:
+    std::vector<int> data;
+};
+
+
+int main() {
+    Singleton& s = Singleton::init({1, 2, 3});
+    std::cout << s << std::endl; // 1 2 3
+
+    Singleton& s2 = Singleton::init({1, 1, 1});
+    std::cout << s2 << std::endl; // 1 2 3
+
+}
+
+// Solution 2
 
 #include <iostream>
 #include <memory>
@@ -31,7 +69,7 @@ int main() {
 }
 
 
-// Solution2
+// Solution3
 
 #include <atomic>
 #include <iostream>
