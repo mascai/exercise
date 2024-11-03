@@ -1,5 +1,6 @@
 #include <iostream>
 
+
 using namespace std;
 
 
@@ -8,10 +9,11 @@ public:
     virtual void draw() = 0;
 };
 
-class LinuxButton : public IWidget {
+
+class LinuxButton : public IWidget{
 public:
     void draw() {
-        cout << "LinuxButton" << endl;
+        cout << "LinuxButton"  << endl;
     }
 };
 
@@ -22,19 +24,21 @@ public:
     }
 };
 
-class WindowsButton : public IWidget {
+
+class WinButton : public IWidget{
 public:
     void draw() {
-        cout << "WindowsButton" << endl;
+        cout << "WinButton"  << endl;
     }
 };
 
-class WindowsMenu : public IWidget {
+class WinMenu : public IWidget {
 public:
     void draw() {
-        cout << "WindowsMenu" << endl;
+        cout << "WinMenu" << endl;
     }
 };
+
 
 class IFactory {
 public:
@@ -42,17 +46,6 @@ public:
     virtual IWidget* create_menu() = 0;
 };
 
-
-class WindowsFactory : public IFactory {
-public:
-    IWidget* create_button() {
-        return new WindowsButton();
-    }
-
-    IWidget* create_menu() {
-        return new WindowsMenu();
-    }
-};
 
 class LinuxFactory : public IFactory {
 public:
@@ -65,40 +58,38 @@ public:
     }
 };
 
-class Client {
-private:
-    IFactory* factory;
+
+class Winactory : public IFactory {
 public:
-    Client(IFactory* f) {
-        factory = f;
+    IWidget* create_button() {
+        return new WinButton();
     }
-    void draw() {
-    IWidget *w = factory->create_button();
-    w->draw();
-    display_window_one();
-    display_window_two();
-  }
 
-  void display_window_one() {
-    IWidget *w[] = {
-        factory->create_button(),
-        factory->create_menu()
-    };
-    w[0]->draw();
-    w[1]->draw();
-  }
+    IWidget* create_menu() {
+        return new WinMenu();
+    }
+};
 
-  void display_window_two() {
-    IWidget *w[] = {
-        factory->create_menu(),
-        factory->create_button()
-    };
-    w[0]->draw();
-    w[1]->draw();
-  }
+
+class Client {
+public:
+    Client(IFactory* factory) {
+        factory_ = factory;
+    }
+
+    void draw_window() {
+        IWidget* button = factory_->create_button();
+        IWidget* menu = factory_->create_menu();
+
+        button->draw();
+        menu->draw();
+    }
+private:
+    IFactory* factory_;
 };
 
 int main() {
-    Client client(new LinuxFactory());
-    client.draw();
+    cout << "Hello user" << endl;
+    Client client(new LinuxFactory);
+    client.draw_window();
 }
